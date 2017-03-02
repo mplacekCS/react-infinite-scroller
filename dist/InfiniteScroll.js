@@ -41,33 +41,37 @@ var InfiniteScroll = function (_Component) {
     }, {
         key: 'componentDidUpdate',
         value: function componentDidUpdate() {
-            this.attachScrollListener();
+            if (this.props.hasMore) {
+                this.attachScrollListener();
+            } else {
+                this.detachScrollListener();
+            }
         }
     }, {
         key: 'render',
         value: function render() {
             var _this2 = this;
 
-            var _props = this.props;
-            var children = _props.children;
-            var element = _props.element;
-            var hasMore = _props.hasMore;
-            var initialLoad = _props.initialLoad;
-            var isReverse = _props.isReverse;
-            var loader = _props.loader;
-            var loadMore = _props.loadMore;
-            var pageStart = _props.pageStart;
-            var threshold = _props.threshold;
-            var useCapture = _props.useCapture;
-            var useWindow = _props.useWindow;
-
-            var props = _objectWithoutProperties(_props, ['children', 'element', 'hasMore', 'initialLoad', 'isReverse', 'loader', 'loadMore', 'pageStart', 'threshold', 'useCapture', 'useWindow']);
+            var _props = this.props,
+                children = _props.children,
+                element = _props.element,
+                hasMore = _props.hasMore,
+                isLoading = _props.isLoading,
+                initialLoad = _props.initialLoad,
+                isReverse = _props.isReverse,
+                loader = _props.loader,
+                loadMore = _props.loadMore,
+                pageStart = _props.pageStart,
+                threshold = _props.threshold,
+                useCapture = _props.useCapture,
+                useWindow = _props.useWindow,
+                props = _objectWithoutProperties(_props, ['children', 'element', 'hasMore', 'isLoading', 'initialLoad', 'isReverse', 'loader', 'loadMore', 'pageStart', 'threshold', 'useCapture', 'useWindow']);
 
             props.ref = function (node) {
                 _this2.scrollComponent = node;
             };
 
-            return _react2.default.createElement(element, props, children, hasMore && (loader || this._defaultLoader));
+            return _react2.default.createElement(element, props, children, isLoading && (loader || this._defaultLoader));
         }
     }, {
         key: 'calculateTopPosition',
@@ -150,6 +154,7 @@ var InfiniteScroll = function (_Component) {
 InfiniteScroll.propTypes = {
     element: _react.PropTypes.string,
     hasMore: _react.PropTypes.bool,
+    isLoading: _react.PropTypes.bool,
     initialLoad: _react.PropTypes.bool,
     isReverse: _react.PropTypes.bool,
     loadMore: _react.PropTypes.func.isRequired,
@@ -161,6 +166,7 @@ InfiniteScroll.propTypes = {
 InfiniteScroll.defaultProps = {
     element: 'div',
     hasMore: false,
+    isLoading: false,
     initialLoad: true,
     pageStart: 0,
     threshold: 250,
